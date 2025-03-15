@@ -1,12 +1,47 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { useState } from "react";
 
-const Card = ({ mouvie }) => {
-  const [isColor, setIsColor] = useState(false);
-  const getGenre = () => {
-    isColor ? setIsColor(true) : setIsColor(false);
+const Card = ({ mouvie, genre }) => {
+  const [arrFavorite, setArrFavorit] = useState([]);
+  const [isNewArray, setIsNewArray] = useState(true);
+  let tab = [];
+  const getfavorite = () => {
+    // // setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
+    // // tab = [...JSON.parse(localStorage.mouvieID)];
+    // // console.log(tab);
+    // setArrFavorit((arrFavorite) => [
+    // //   ...arrFavorite,
+    // //   JSON.parse(localStorage.mouvieID),
+    // // ]);
+    // // console.log(arrFavorite);
+
+    // setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
+    // // if (arrFavorite.includes(mouvie.id)) {
+    // //   console.log(mouvie.id);
+    // //   console.log("tes1");
+    // //   return;
+    // // } else {
+    // //   // console.log("tes2");
+    // //   // tab = JSON.parse(localStorage.mouvieID);
+    // //   // console.log(tab);
+    // //   setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
+    // //   setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
+    // //   // setArrFavorit(tab)
+    // //   if ((arrFavorite.length = 0)) {
+    // //     setArrFavorit(() => [mouvie.id]);
+    // //     console.log("tes2");
+    // //   } else {
+    // //     console.log("tes3");
+    // //     setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
+    // //   }
+    // // }
+    console.log(arrFavorite);
+    localStorage.mouvieID = JSON.stringify(arrFavorite);
+
+    // pour enregister en fichier Joson
+    //  localStorage.exercises = JSON.stringify(exerciseArray);
+    // pour recuperer en json
   };
-  // getGenre();
   return (
     <div>
       <li>
@@ -23,20 +58,32 @@ const Card = ({ mouvie }) => {
             style={{ color: "yellow" }}
           />
         </h5>
+        <h5>Genres: </h5>
+        {/* ============================ */}
         <ul>
-          <h5>Genres: </h5>
-          {mouvie.genre_ids.map((genre, index) => (
-            <li className="genre" key={index}>
-              {genre}
-            </li>
-          ))}
+          {mouvie.genre_ids.map((genreId, index) => {
+            return (
+              <i key={index}>
+                {genre.map((gender) => {
+                  return (
+                    genreId === gender.id && (
+                      <li key={gender.id}>{gender.name}</li>
+                    )
+                  );
+                })}
+              </i>
+            );
+          })}
+          {/* ============================= */}
         </ul>
         <h5>Synopsis</h5>
         <p>{mouvie.overview}</p>
-
         <FontAwesomeIcon
           icon="fa-solid fa-heart"
-          onClick={() => getGenre()}
+          // icon="fa-regular fa-heart"
+          style={{ color: "red" }}
+          onClick={(e) => getfavorite(e)}
+
           // {isColor ? style{{ color: "red" }:style{{ color: "blue" }}}
           // className={(nav) => (nav.isColor ? "fa-heart" : "fa-heartNon")}
         />
