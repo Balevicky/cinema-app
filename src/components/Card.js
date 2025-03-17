@@ -3,40 +3,38 @@ import { useState } from "react";
 
 const Card = ({ mouvie, genre }) => {
   const [arrFavorite, setArrFavorit] = useState([]);
-  const [isNewArray, setIsNewArray] = useState(true);
-  let tab = [];
-  const getfavorite = () => {
-    // // setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
-    // // tab = [...JSON.parse(localStorage.mouvieID)];
-    // // console.log(tab);
-    // setArrFavorit((arrFavorite) => [
-    // //   ...arrFavorite,
-    // //   JSON.parse(localStorage.mouvieID),
-    // // ]);
-    // // console.log(arrFavorite);
 
-    // setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
-    // // if (arrFavorite.includes(mouvie.id)) {
-    // //   console.log(mouvie.id);
-    // //   console.log("tes1");
-    // //   return;
-    // // } else {
-    // //   // console.log("tes2");
-    // //   // tab = JSON.parse(localStorage.mouvieID);
-    // //   // console.log(tab);
-    // //   setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
-    // //   setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
-    // //   // setArrFavorit(tab)
-    // //   if ((arrFavorite.length = 0)) {
-    // //     setArrFavorit(() => [mouvie.id]);
-    // //     console.log("tes2");
-    // //   } else {
-    // //     console.log("tes3");
-    // //     setArrFavorit((arrFavorite) => [...arrFavorite, mouvie.id]);
-    // //   }
-    // // }
-    console.log(arrFavorite);
-    localStorage.mouvieID = JSON.stringify(arrFavorite);
+  let tabGeneral = localStorage.mouvieID
+    ? [...JSON.parse(localStorage.mouvieID)]
+    : [];
+  console.log(tabGeneral);
+
+  // const [isNewArray, setIsNewArray] = useState(true);
+
+  const getfavorite = () => {
+    let tabGeneral = localStorage.mouvieID
+      ? [...JSON.parse(localStorage.mouvieID)]
+      : [];
+    console.log(tabGeneral);
+    if (tabGeneral.includes(mouvie.id)) {
+      //remove to array
+      let index = tabGeneral.indexOf(mouvie.id);
+      if (index !== -1) {
+        tabGeneral.splice(index, 1);
+        console.log(tabGeneral);
+        localStorage.mouvieID = JSON.stringify(tabGeneral);
+        console.log(tabGeneral);
+        console.log("ce id " + mouvie.id + " est supprimé!!");
+      } else {
+        return;
+      }
+    } else {
+      // Add to array
+      tabGeneral.push(mouvie.id);
+      console.log(tabGeneral);
+      localStorage.mouvieID = JSON.stringify(tabGeneral);
+      console.log(tabGeneral);
+    }
 
     // pour enregister en fichier Joson
     //  localStorage.exercises = JSON.stringify(exerciseArray);

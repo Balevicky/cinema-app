@@ -9,8 +9,7 @@ const Movie = () => {
   const [inputValue, setInputValue] = useState("code");
   const [croissantValue, setCroissantValue] = useState("");
   const [decroissantValue, setDecroissantValue] = useState("");
-  let x = 0;
-  let y = 0;
+
   useEffect(() => {
     axios
       .get(
