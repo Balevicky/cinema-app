@@ -2,44 +2,71 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 const Card = ({ mouvie, genre }) => {
-  const [arrFavorite, setArrFavorit] = useState([]);
-
   let tabGeneral = localStorage.mouvieID
     ? [...JSON.parse(localStorage.mouvieID)]
     : [];
-  console.log(tabGeneral);
-
-  // const [isNewArray, setIsNewArray] = useState(true);
-
-  const getfavorite = () => {
+  const [isColor, setisColor] = useState(false);
+  const getfavorite = (e) => {
     let tabGeneral = localStorage.mouvieID
       ? [...JSON.parse(localStorage.mouvieID)]
       : [];
-    console.log(tabGeneral);
+
     if (tabGeneral.includes(mouvie.id)) {
       //remove to array
+
       let index = tabGeneral.indexOf(mouvie.id);
       if (index !== -1) {
         tabGeneral.splice(index, 1);
-        console.log(tabGeneral);
         localStorage.mouvieID = JSON.stringify(tabGeneral);
-        console.log(tabGeneral);
         console.log("ce id " + mouvie.id + " est supprimé!!");
       } else {
         return;
       }
     } else {
       // Add to array
+
       tabGeneral.push(mouvie.id);
-      console.log(tabGeneral);
       localStorage.mouvieID = JSON.stringify(tabGeneral);
-      console.log(tabGeneral);
     }
 
     // pour enregister en fichier Joson
     //  localStorage.exercises = JSON.stringify(exerciseArray);
     // pour recuperer en json
   };
+  const cardView = () => {
+    mouvie.genre_ids
+      ? mouvie.genre_ids.map((genreId, index) => {
+          return (
+            (<h5>Genres: </h5>),
+            (
+              <i key={index}>
+                ==============
+                {genre.map((gender) => {
+                  return (
+                    genreId === gender.id && (
+                      <li key={gender.id}>{gender.name}</li>
+                    )
+                  );
+                })}
+                ==========
+              </i>
+            )
+          );
+        })
+      : mouvie.genres.map((gender) => {
+          // return (
+          //   <i>
+          //     <li key={gender.id}>{gender.name}</li>
+          //   </i>
+          // );
+        });
+  };
+
+  // ============================
+  // const changeColor = () => {
+  //   mouvie.genre_ids ? "" : window.location.reload();
+  // };
+
   return (
     <div>
       <li>
@@ -56,35 +83,36 @@ const Card = ({ mouvie, genre }) => {
             style={{ color: "yellow" }}
           />
         </h5>
-        <h5>Genres: </h5>
         {/* ============================ */}
         <ul>
-          {mouvie.genre_ids.map((genreId, index) => {
-            return (
-              <i key={index}>
-                {genre.map((gender) => {
-                  return (
-                    genreId === gender.id && (
-                      <li key={gender.id}>{gender.name}</li>
-                    )
-                  );
-                })}
-              </i>
-            );
-          })}
+          {/* {mouvie.genre_ids.map((genreId, index) => { */}
+          {/* ============================================================= */}
+          {cardView()}
+          {/* ============================================================= */}
           {/* ============================= */}
         </ul>
         <h5>Synopsis</h5>
         <p>{mouvie.overview}</p>
-        <FontAwesomeIcon
-          icon="fa-solid fa-heart"
-          // icon="fa-regular fa-heart"
-          style={{ color: "red" }}
-          onClick={(e) => getfavorite(e)}
-
-          // {isColor ? style{{ color: "red" }:style{{ color: "blue" }}}
-          // className={(nav) => (nav.isColor ? "fa-heart" : "fa-heartNon")}
-        />
+        {mouvie.genre_ids ? (
+          <FontAwesomeIcon
+            icon="fa-solid fa-heart"
+            // style={{ isColor color: "white": color: "white" }
+            onClick={(e) => {
+              getfavorite(e);
+              isColor ? setisColor(false) : setisColor(true);
+            }}
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon="fa-solid fa-heart"
+            onClick={(e) => {
+              getfavorite(e);
+              window.location.reload();
+            }}
+          />
+        )}
+        {/* {isColor ? style{{ color: "red" }:style{{ color: "blue" }}} */}
+        {/* className={(nav) => (nav.isColor ? "fa-heart" : "fa-heartNon")} */}
       </li>
     </div>
   );
