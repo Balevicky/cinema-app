@@ -1,10 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Card = ({ mouvie, genre }) => {
-  let tabGeneral = localStorage.mouvieID
-    ? [...JSON.parse(localStorage.mouvieID)]
-    : [];
   const [isColor, setisColor] = useState(false);
   const getfavorite = (e) => {
     let tabGeneral = localStorage.mouvieID
@@ -33,74 +30,74 @@ const Card = ({ mouvie, genre }) => {
     //  localStorage.exercises = JSON.stringify(exerciseArray);
     // pour recuperer en json
   };
-  const cardView = () => {
-    mouvie.genre_ids
-      ? mouvie.genre_ids.map((genreId, index) => {
-          return (
-            (<h5>Genres: </h5>),
-            (
-              <i key={index}>
-                ==============
-                {genre.map((gender) => {
-                  return (
-                    genreId === gender.id && (
-                      <li key={gender.id}>{gender.name}</li>
-                    )
-                  );
-                })}
-                ==========
-              </i>
-            )
-          );
-        })
-      : mouvie.genres.map((gender) => {
-          // return (
-          //   <i>
-          //     <li key={gender.id}>{gender.name}</li>
-          //   </i>
-          // );
-        });
-  };
 
   // ============================
-  // const changeColor = () => {
-  //   mouvie.genre_ids ? "" : window.location.reload();
-  // };
+  const changeColor = () => {
+    // ====================================================
+    let tabGeneral = localStorage.mouvieID
+      ? [...JSON.parse(localStorage.mouvieID)]
+      : [];
+    if (tabGeneral.includes(mouvie.id)) {
+      setisColor(true);
+    } else {
+      setisColor(false);
+    }
+    // ====================================================
+    console.log(isColor);
+  };
+  useEffect(() => {
+    changeColor();
+  }, []);
 
   return (
-    <div>
+    <div className="card">
       <li>
         <img
           src={"https://image.tmdb.org/t/p/original/" + mouvie.poster_path}
           alt={"photo de " + mouvie.title}
         />
-        <h4> {mouvie.title}</h4>
-        <h5>Sortie le:{mouvie.release_date}</h5>
-        <h5>
+        <h2> {mouvie.title}</h2>
+        <h5>Sortie le: {mouvie.release_date}</h5>
+        <h4>
           Vote: {mouvie.vote_average}/10
-          <FontAwesomeIcon
-            icon="fa-solid fa-star"
-            style={{ color: "yellow" }}
-          />
-        </h5>
-        {/* ============================ */}
-        <ul>
-          {/* {mouvie.genre_ids.map((genreId, index) => { */}
-          {/* ============================================================= */}
-          {cardView()}
-          {/* ============================================================= */}
-          {/* ============================= */}
+          <span>
+            {" "}
+            <FontAwesomeIcon
+              icon="fa-solid fa-star"
+              style={{ color: "yellow" }}
+            />
+          </span>
+        </h4>
+
+        {mouvie.genre_ids ? <h4>Genre</h4> : ""}
+        <ul className="genre">
+          {mouvie.genre_ids
+            ? mouvie.genre_ids.map((genreId, index) => {
+                return (
+                  <i key={index}>
+                    {genre.map((gender) => {
+                      return (
+                        genreId === gender.id && (
+                          <li key={gender.id}>{gender.name}</li>
+                        )
+                      );
+                    })}
+                  </i>
+                );
+              })
+            : ""}
         </ul>
-        <h5>Synopsis</h5>
+        <h3>Synopsis</h3>
         <p>{mouvie.overview}</p>
+
         {mouvie.genre_ids ? (
           <FontAwesomeIcon
-            icon="fa-solid fa-heart"
-            // style={{ isColor color: "white": color: "white" }
             onClick={(e) => {
               getfavorite(e);
               isColor ? setisColor(false) : setisColor(true);
             }}
+            icon="fa-solid fa-heart"
+            className={isColor ? "color" : "white "}
           />
         ) : (
           <FontAwesomeIcon
@@ -109,10 +106,9 @@ const Card = ({ mouvie, genre }) => {
               getfavorite(e);
               window.location.reload();
             }}
+            className={isColor ? "color" : "white "}
           />
         )}
-        {/* {isColor ? style{{ color: "red" }:style{{ color: "blue" }}} */}
-        {/* className={(nav) => (nav.isColor ? "fa-heart" : "fa-heartNon")} */}
       </li>
     </div>
   );
