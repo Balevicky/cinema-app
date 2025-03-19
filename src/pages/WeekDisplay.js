@@ -5,7 +5,8 @@ const WeekDisplay = () => {
   return (
     <div>
       <Navigation />
-      <h1>Affichage de la semaine</h1>
+
+      <h2 className="result">Les films de la semaine</h2>
     </div>
   );
 };

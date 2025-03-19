@@ -1,23 +1,37 @@
 .form-component {
   .form-container {
     text-align: center;
-  }
-  form {
-    width: 300px;
+    font-size: 1.8rem;
+    border-radius: 10px;
+  // }
+  // form {
+    text-align: center;
+    width: 350px;
     margin: 0 auto;
-
+    // background: rgba(192, 190, 190, 0.639);
+    padding: 10px;
     input[type="text"] {
       padding: 1px 10px;
       border-radius: 10px 10px 0 0;
       border: none;
-      font-size: 1.5rem;
+       font-size: 1.5rem;
       display: block;
       margin: 0 auto;
-      width: 220px;
+      width: 300px;
       outline: none;
       text-align: center;
     }
-    input[type="submit"] {
+    label {
+      width: 300px;
+      background: $color-1;
+      display: block;
+      margin: 0 auto;
+    }
+    h4 {
+      position: relative;
+      bottom: -13px;
+    }
+    button {
       padding: 1px 10px;
       width: 220px;
       border-radius: 0 0 10px 10px;
@@ -31,6 +45,7 @@
 
       &:hover {
         background: $black;
+        color: $white;
       }
     }
   }
@@ -40,15 +55,15 @@
     display: flex;
     justify-content: space-around;
     cursor: pointer;
-
-    #goodToBad {
+    height: 40px;
+    #decroissant {
       border-radius: 10px 0 0 10px;
     }
-    #badToGood {
+    #croissant {
       border-radius: 0 10px 10px 0;
     }
-    #goodToBad,
-    #badToGood {
+    #croissant,
+    #decroissant {
       background: $color-1;
       width: 110px;
       transition: 0.3s;
@@ -56,6 +71,7 @@
 
       &:hover {
         background: $black;
+        color: $white;
       }
     }
     #goodToBad span {
@@ -65,6 +81,7 @@
     #badToGood span {
       transform: translateY(-50%) rotate(90deg);
       left: 16px;
+      color: $white;
     }
     #goodToBad span,
     #badToGood span {

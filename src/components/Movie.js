@@ -26,58 +26,71 @@ const Movie = () => {
   }, [inputValue]);
 
   return (
-    <div>
-      <input
-        type="text"
-        name=""
-        id="input"
-        placeholder="Rechercher par nom du filme"
-        defaultValue={inputValue ? inputValue : "code"}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      <br />
-      <label htmlFor="input">Rechercher</label> <br />
-      <div className="vote-container">
-        <span>Filtrer par vote</span>
-        <br />
-        <button
-          id="croissant"
-          onClick={(e) => {
-            setCroissantValue(e.target.id);
-            setDecroissantValue("");
-          }}
-        >
-          Vote croissante <FontAwesomeIcon icon="fa-solid fa-arrow-up" />
-        </button>
-        <button
-          id="decroissant"
-          onClick={(e) => {
-            setDecroissantValue(e.target.id);
-            setCroissantValue("");
-          }}
-        >
-          Vote décroissante{" "}
-          <FontAwesomeIcon
-            icon="fa-solid fa-arrow-down"
-            // style={{ color: "white" }}
-          />
-        </button>
-      </div>
-      <ul>
-        {mouvieData
-          .sort((a, b) => {
-            if (croissantValue === "croissant") {
-              return a.vote_average - b.vote_average;
-            } else if (decroissantValue === "decroissant") {
-              return b.vote_average - a.vote_average;
-            }
-          })
-          .map((mouvie) => (
-            // <li key={mouvie.id}>{mouvie.title}</li>
+    <div className="form-component">
+      <form className="form-container">
+        <input
+          type="text"
+          name=""
+          id="input"
+          placeholder="Taper le titre du film"
+          // defaultValue={inputValue ? inputValue : "code"}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <label htmlFor="input">Rechercher par titre du film</label>
+        <h4>Filtrer par vote</h4>
+        <div className="btn-sort-container">
+          <button
+            id="croissant"
+            onClick={(e) => {
+              e.preventDefault();
+              setCroissantValue(e.target.id);
+              setDecroissantValue("");
+            }}
+          >
+            {/* Vote croissante */}
+            {/* <br /> */}
+            <span>
+              <FontAwesomeIcon icon="fa-solid fa-arrow-up" />
+            </span>
+          </button>
+          <button
+            id="decroissant"
+            onClick={(e) => {
+              e.preventDefault();
+              setDecroissantValue(e.target.id);
+              setCroissantValue("");
+            }}
+          >
+            {/* Vote décroissante */}
+            <span>
+              <FontAwesomeIcon
+                icon="fa-solid fa-arrow-down"
+                // style={{ color: "white" }}
+              />
+            </span>
+          </button>
+        </div>
+      </form>
+      {mouvieData ? (
+        <ul>
+          {mouvieData
+            .sort((a, b) => {
+              if (croissantValue === "croissant") {
+                return a.vote_average - b.vote_average;
+              } else if (decroissantValue === "decroissant") {
+                return b.vote_average - a.vote_average;
+              }
+            })
+            .map((mouvie) => (
+              // <li key={mouvie.id}>{mouvie.title}</li>
 
-            <Card key={mouvie.id} mouvie={mouvie} genre={genreData} />
-          ))}
-      </ul>
+              <Card key={mouvie.id} mouvie={mouvie} genre={genreData} />
+            ))}
+        </ul>
+      ) : (
+        // <h2>Aucun film trouvé</h2>
+        console.log("non trouvé")
+      )}
     </div>
   );
 };

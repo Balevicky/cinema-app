@@ -43,21 +43,33 @@ const Card = ({ mouvie, genre }) => {
       setisColor(false);
     }
     // ====================================================
-    console.log(isColor);
+    // console.log(isColor);
   };
   useEffect(() => {
     changeColor();
   }, []);
+  // formater la date
+  const formaterDate = (date) => {
+    let [yy, mm, dd] = date.split("-");
+    return [dd, mm, yy].join("/");
+  };
 
   return (
     <div className="card">
       <li>
         <img
-          src={"https://image.tmdb.org/t/p/original/" + mouvie.poster_path}
+          src={
+            mouvie.poster_path
+              ? "https://image.tmdb.org/t/p/original/" + mouvie.poster_path
+              : "./img/poster.jpg"
+          }
           alt={"photo de " + mouvie.title}
         />
         <h2> {mouvie.title}</h2>
-        <h5>Sortie le: {mouvie.release_date}</h5>
+        {mouvie.release_date ? (
+          <h5>Sortie le: {formaterDate(mouvie.release_date)}</h5>
+        ) : null}
+
         <h4>
           Vote: {mouvie.vote_average}/10
           <span>
@@ -69,7 +81,7 @@ const Card = ({ mouvie, genre }) => {
           </span>
         </h4>
 
-        {mouvie.genre_ids ? <h4>Genre</h4> : ""}
+        {/* {mouvie.genre_ids ? <h4>Genre</h4> : ""} */}
         <ul className="genre">
           {mouvie.genre_ids
             ? mouvie.genre_ids.map((genreId, index) => {
@@ -85,9 +97,11 @@ const Card = ({ mouvie, genre }) => {
                   </i>
                 );
               })
-            : ""}
+            : mouvie.genres.map((gender) => {
+                return <li key={gender.id}>{gender.name}</li>;
+              })}
         </ul>
-        <h3>Synopsis</h3>
+        {mouvie.overview ? <h3>Synopsis</h3> : ""}
         <p>{mouvie.overview}</p>
 
         {mouvie.genre_ids ? (

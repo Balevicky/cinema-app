@@ -12,7 +12,7 @@ const Fovorite = () => {
     : [];
 
   useEffect(() => {
-    let mouvieByIDArr = [];
+    // let mouvieByIDArr = [];
     for (let id = 0; id < tabGeneral.length; id++) {
       axios
         .get(
@@ -20,34 +20,23 @@ const Fovorite = () => {
             tabGeneral[id] +
             "?api_key=ed82f4c18f2964e75117c2dc65e2161d&language=fr"
         )
-        .then((resp) => mouvieByIDArr.push(resp.data))
-        .then(() => setMouvieByID(mouvieByIDArr));
+        .then((resp) =>
+          setMouvieByID((mouvieByID) => [...mouvieByID, resp.data])
+        );
+      // .then((resp) => mouvieByIDArr.push(resp.data))
+      // .then(() => setMouvieByID(mouvieByIDArr));
     }
   }, []);
-
-  // const deletefavorite = () => {
-  //   let tabGeneral = localStorage.mouvieID
-  //     ? [...JSON.parse(localStorage.mouvieID)]
-  //     : [];
-
-  //   if (tabGeneral.includes(mouvie.id)) {
-  //     //remove to array
-  //     let index = tabGeneral.indexOf(mouvie.id);
-  //     if (index !== -1) {
-  //       tabGeneral.splice(index, 1);
-  //       localStorage.mouvieID = JSON.stringify(tabGeneral);
-  //       console.log("ce id " + mouvie.id + " est supprimé!!");
-  //       findMoviebyID();
-  //     } else {
-  //       return;
-  //     }
-  //   }
-  // };
 
   return (
     <div>
       <Navigation />
-      <h1>Favorite</h1>
+
+      {mouvieByID.length > 0 ? (
+        <h2 className="result">Mes films préférés</h2>
+      ) : (
+        <h2 className="result">Aucun film préféré pour le moment </h2>
+      )}
       <ul>
         {mouvieByID.map((mouvie) => {
           return <Card key={mouvie.id} mouvie={mouvie} genre={mouvie.genres} />;
